@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRO.LASH – Студия наращивания ресниц в Орске</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0, #fce4ec);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #333;
+      overflow-x: hidden;
+      position: relative;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Фоновая анимация */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(252,212,224,0.5) 0%, rgba(255,255,255,0) 70%);
+      animation: floatCircles 15s infinite ease-in-out;
+    }
+    .circle:nth-child(1) { width: 200px; height: 200px; top: 10%; left: 20%; animation-duration: 18s; }
+    .circle:nth-child(2) { width: 300px; height: 300px; top: 50%; left: 70%; animation-duration: 22s; }
+    .circle:nth-child(3) { width: 250px; height: 250px; top: 80%; left: 30%; animation-duration: 20s; }
+    .circle:nth-child(4) { width: 150px; height: 150px; top: 30%; left: 80%; animation-duration: 25s; }
+
+    @keyframes floatCircles {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.5; }
+      50% { transform: translateY(-40px) translateX(20px); opacity: 0.9; }
+    }
+
+    /* Блестки */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkleAnim 3s infinite, moveSparkles 20s linear infinite;
+      box-shadow: 0 0 6px white, 0 0 12px rgba(255,182,193,0.8);
+    }
+    @keyframes sparkleAnim {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(0.5); }
+    }
+    @keyframes moveSparkles {
+      from { transform: translateY(0) translateX(0); }
+      to { transform: translateY(-200px) translateX(100px); }
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(-40px);
+      transition: all 1.2s ease;
+    }
+    header.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    header h1 {
+      font-size: 2.5rem;
+      color: #444;
+      margin-bottom: 0.3rem;
+      animation: fadeInScale 1.5s ease forwards;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .btn {
+      background: #fcd4e0;
+      border: none;
+      border-radius: 20px;
+      padding: 2rem;
+      font-size: 1.2rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      transform: perspective(600px) translateZ(0);
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      transform: perspective(600px) translateZ(20px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      background: #fbb8ce;
+    }
+    /* Пульсирующее свечение при наведении */
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,182,193,0.5) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      border-radius: 50%;
+      animation: pulseGlow 2s infinite;
+      pointer-events: none;
+    }
+    .btn:hover::after {
+      opacity: 1;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(0.8); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    section {
+      padding: 3rem 2rem;
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+    }
+    section.visible, .btn.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #444;
+      text-align: center;
+    }
+    section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      text-align: center;
+      color: #555;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 20px 20px 0 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    /* Анимация SVG ресниц */
+    .lashes {
+      display: block;
+      margin: 2rem auto;
+      width: 200px;
+      fill: none;
+      stroke: #444;
+      stroke-width: 2;
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
+      animation: draw 3s forwards ease, float 4s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+    .lashes.visible {
+      opacity: 1;
+    }
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Фоновая анимация -->
+  <div class="bg-animation">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <!-- Блестки -->
+    <div class="sparkle" style="top:20%; left:30%; animation-delay:0s;"></div>
+    <div class="sparkle" style="top:40%; left:60%; animation-delay:1s;"></div>
+    <div class="sparkle" style="top:70%; left:50%; animation-delay:2s;"></div>
+    <div class="sparkle" style="top:30%; left:80%; animation-delay:1.5s;"></div>
+    <div class="sparkle" style="top:85%; left:20%; animation-delay:2.5s;"></div>
+  </div>
+
+  <header>
+    <h1>PRO.LASH</h1>
+    <p>Студия наращивания ресниц в Орске</p>
+    <p>Адрес: Бизнес-Центр, Проезд Металлургов 6А, кабинет 307</p>
+  </header>
+
+  <!-- Рисунок ресниц -->
+  <svg class="lashes" viewBox="0 0 200 100">
+    <path d="M10 80 Q 60 20, 110 80 T 190 80" />
+  </svg>
+
+  <!-- Кнопки -->
+  <div class="buttons">
+    <button class="btn" onclick="window.location.href='https://t.me/tany1888'">Запись на наращивание ресниц</button>
+    <button class="btn" onclick="scrollToSection('price')">Прайс</button>
+    <button class="btn" onclick="scrollToSection('why')">Почему выбрать нас</button>
+    <button class="btn" onclick="scrollToSection('recommend')">Рекомендации для клиентов</button>
+  </div>
+
+  <!-- Разделы -->
+  <section id="price">
+    <h2>Прайс</h2>
+    <p>
+      Классическое наращивание – 1500 ₽<br>
+      2D объем – 1800 ₽<br>
+      3D объем – 2200 ₽<br>
+      Коррекция – от 1200 ₽
+    </p>
+  </section>
+
+  <section id="why">
+    <h2>Почему выбрать нас</h2>
+    <p>
+      PRO.LASH – это сочетание профессионализма и эстетики. Мы используем только гипоаллергенные материалы премиум-класса, гарантируем комфорт и безопасность процедуры. Индивидуальный подход и внимание к каждой детали – вот то, что делает нас особенными.
+    </p>
+  </section>
+
+  <section id="recommend">
+    <h2>Рекомендации для клиентов</h2>
+    <p>
+      • Не мочите ресницы первые 24 часа после процедуры.<br>
+      • Избегайте масел и жирных кремов в области глаз.<br>
+      • Расчесывайте ресницы специальной щёточкой.<br>
+      • Приходите на коррекцию раз в 3–4 недели, чтобы поддерживать идеальный результат.
+    </p>
+  </section>
+
+  <footer>
+    <p>Мастер по наращиванию ресниц – Tatyana Bryndina</p>
+    <p>Телефон: <a href="tel:+79619211888">+7-961-921-1888</a></p>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Анимация при прокрутке
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.btn, section, header, .lashes').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
